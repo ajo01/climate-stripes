@@ -53,14 +53,7 @@ class StripeChart {
       .attr("transform", `translate(0,0)`)
       .attr("class", "x-axis");
 
-    const min = -2.062;
-    const max = 3.691;
-
     vis.xScale = d3.scaleLinear().domain([1961, 2023]).range([0, vis.width]);
-
-    // vis.colorScale = d3
-    //   .scaleDiverging(d3.interpolateRdYlBu)
-    //   .domain([max, 0, min]);
 
     vis.colorScale = d3
       .scaleDiverging(d3.interpolateRdBu)
