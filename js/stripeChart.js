@@ -12,9 +12,8 @@ class StripeChart {
         top: 150,
         right: 50,
         bottom: 100,
-        left: 200,
+        left: 50,
       },
-      tooltipPadding: 15,
     };
     this.data = data;
     this.selectedCountry = selectedCountry || "Canada";
@@ -54,8 +53,8 @@ class StripeChart {
       .attr("transform", `translate(0,0)`)
       .attr("class", "x-axis");
 
-    vis.xScale = d3.scaleLinear().domain([1961, 2022]).range([0, vis.width]);
-    vis.colorScale = d3.scaleThreshold([-1, 1], ["red", "white", "blue"]);
+    vis.xScale = d3.scaleLinear().domain([1961, 2023]).range([0, vis.width]);
+    vis.colorScale = d3.scaleThreshold([-1, 1], ["red", "orange", "blue"]);
 
     vis.xAxis = d3
       .axisBottom(vis.xScale)
@@ -74,7 +73,6 @@ class StripeChart {
     );
     vis.selectedCountryData = vis.selectedCountryData[0];
     delete vis.selectedCountryData.Country;
-    console.log(vis.data);
     console.log(" vis.selectedCountryData", vis.selectedCountryData);
 
     vis.renderVis();
@@ -86,14 +84,17 @@ class StripeChart {
 
     vis.bar = vis.chart
       .selectAll(".bar")
-      .data(vis.selectedCountryData)
+      .data(Object.entries(vis.selectedCountryData))
       .join("rect")
       .attr("class", `bar`)
       .attr("x", (d, i) => vis.xScale(1961 + i))
-      .attr("y", vis.height)
-      .attr("width", 5)
-      .attr("height", vis.config.containerHeight)
-      .attr("fill", "blue");
+      .attr("y", 0)
+      .attr("width", 16)
+      .attr("height", vis.height)
+      .attr("fill", (d) => {
+        const tempValue = d[1];
+        return vis.colorScale(tempValue);
+      });
 
     vis.xAxisG.call(vis.xAxis);
   }
