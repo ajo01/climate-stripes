@@ -19,4 +19,31 @@ d3.csv("data/output.csv").then((data) => {
   );
   // render chart
   bar.updateVis();
+
+  worldBar = new StripeChart(
+    {
+      parentElement: "#vis-world",
+    },
+    data,
+    "World"
+  );
+  worldBar.updateVis();
+
+  franceBar = new StripeChart(
+    {
+      parentElement: "#vis-france",
+    },
+    data,
+    "France"
+  );
+  franceBar.updateVis();
+
+  kenyaBar = new StripeChart(
+    {
+      parentElement: "#vis-kenya",
+    },
+    data,
+    "Qatar"
+  );
+  kenyaBar.updateVis();
 });

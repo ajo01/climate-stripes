@@ -3,10 +3,10 @@ class StripeChart {
    * Class constructor with initial configuration
    * @param {Object}
    */
-  constructor(_config, data, width, height, selectedCountry) {
+  constructor(_config, data, selectedCountry, width, height) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: width || 1200,
+      containerWidth: width || 1000,
       containerHeight: height || 600,
       margin: {
         top: 150,
@@ -53,13 +53,23 @@ class StripeChart {
       .attr("transform", `translate(0,0)`)
       .attr("class", "x-axis");
 
+    const min = -2.062;
+    const max = 3.691;
+
     vis.xScale = d3.scaleLinear().domain([1961, 2023]).range([0, vis.width]);
-    vis.colorScale = d3.scaleThreshold([-0.5, 0.5], ["blue", "orange", "red"]);
+
+    // vis.colorScale = d3
+    //   .scaleDiverging(d3.interpolateRdYlBu)
+    //   .domain([max, 0, min]);
+
+    vis.colorScale = d3
+      .scaleDiverging(d3.interpolateRdBu)
+      .domain([2.5, 0, -2.5]);
 
     vis.xAxis = d3
       .axisBottom(vis.xScale)
       .tickSize(vis.height)
-      .ticks(10)
+      .ticks(5)
       .tickPadding(20)
       .tickFormat(d3.format("d"));
   }
@@ -73,7 +83,6 @@ class StripeChart {
     );
     vis.selectedCountryData = vis.selectedCountryData[0];
     delete vis.selectedCountryData.Country;
-    console.log(" vis.selectedCountryData", vis.selectedCountryData);
 
     vis.renderVis();
   }
@@ -82,6 +91,9 @@ class StripeChart {
   renderVis() {
     let vis = this;
 
+    const yearRange = 2023 - 1961; // 62
+    const barWidth = Math.ceil(vis.width / yearRange);
+
     vis.bar = vis.chart
       .selectAll(".bar")
       .data(Object.entries(vis.selectedCountryData))
@@ -89,27 +101,27 @@ class StripeChart {
       .attr("class", `bar`)
       .attr("x", (d, i) => vis.xScale(1961 + i))
       .attr("y", 0)
-      .attr("width", 16)
+      .attr("width", barWidth)
       .attr("height", vis.height)
       .attr("fill", (d) => {
         const tempValue = d[1];
         return vis.colorScale(tempValue);
       });
 
-    vis.bar
-      .on("mouseover", (event, d) => {
-        d3
-          .select("#tooltip")
-          .style("display", "block")
-          .style("left", event.pageX + vis.config.tooltipPadding + "px")
-          .style("top", event.pageY + vis.config.tooltipPadding + "px").html(`
-      <div>${d[0]}</div>
-      <div class="tooltip-cost">${d[1]}</div>
-    `);
-      })
-      .on("mouseleave", () => {
-        d3.select("#tooltip").style("display", "none");
-      });
+    // vis.bar
+    //   .on("mouseover", (event, d) => {
+    //     d3
+    //       .select("#tooltip")
+    //       .style("display", "block")
+    //       .style("left", event.pageX + vis.config.tooltipPadding + "px")
+    //       .style("top", event.pageY + vis.config.tooltipPadding + "px").html(`
+    //   <div>${d[0]}</div>
+    //   <div class="tooltip-cost">${d[1]}</div>
+    // `);
+    //   })
+    //   .on("mouseleave", () => {
+    //     d3.select("#tooltip").style("display", "none");
+    //   });
 
     vis.xAxisG.call(vis.xAxis);
   }
