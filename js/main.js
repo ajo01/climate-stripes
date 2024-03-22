@@ -31,9 +31,10 @@ d3.csv("data/output.csv").then((data) => {
       parentElement: "#vis-dynamic",
     },
     data,
-    "World"
+    defaultOption
   );
   dynamicBar.updateVis();
+
   select.on("change", function () {
     const selectedCountry = d3.select(this).property("value");
     dynamicBar.updateVis(selectedCountry);
@@ -47,24 +48,26 @@ d3.csv("data/output.csv").then((data) => {
   // Function to create divs for each country
   function createCountryDivs(countries) {
     countries.forEach((country) => {
-      const sanitizedID = sanitizeForID(country);
-      d3.select(".vis-wrapper")
-        .append("div")
-        .attr("id", `vis-${sanitizedID}`)
-        .attr("class", "vis-country")
-        .style("width", "420px")
-        .style("height", "300px");
+      if (country !== "World") {
+        const sanitizedID = sanitizeForID(country);
+        d3.select(".vis-wrapper")
+          .append("div")
+          .attr("id", `vis-${sanitizedID}`)
+          .attr("class", "vis-country")
+          .style("width", "420px")
+          .style("height", "300px");
 
-      const chart = new StripeChart(
-        {
-          parentElement: `#vis-${sanitizedID}`,
-        },
-        data,
-        country,
-        420,
-        300
-      );
-      chart.updateVis();
+        const chart = new StripeChart(
+          {
+            parentElement: `#vis-${sanitizedID}`,
+          },
+          data,
+          country,
+          420,
+          300
+        );
+        chart.updateVis();
+      }
     });
   }
 
