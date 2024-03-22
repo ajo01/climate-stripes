@@ -39,36 +39,34 @@ d3.csv("data/output.csv").then((data) => {
     dynamicBar.updateVis(selectedCountry);
   });
 
-  bar = new StripeChart(
-    {
-      parentElement: "#vis-canada",
-    },
-    data,
-    "Canada",
-    420,
-    300
-  );
-  bar.updateVis();
+  function sanitizeForID(country) {
+    // Replace spaces and other special characters with dashes
+    return country.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
+  }
 
-  franceBar = new StripeChart(
-    {
-      parentElement: "#vis-france",
-    },
-    data,
-    "France",
-    420,
-    300
-  );
-  franceBar.updateVis();
+  // Function to create divs for each country
+  function createCountryDivs(countries) {
+    countries.forEach((country) => {
+      const sanitizedID = sanitizeForID(country);
+      d3.select(".vis-wrapper")
+        .append("div")
+        .attr("id", `vis-${sanitizedID}`)
+        .attr("class", "vis-country")
+        .style("width", "420px")
+        .style("height", "300px");
 
-  kenyaBar = new StripeChart(
-    {
-      parentElement: "#vis-kenya",
-    },
-    data,
-    "Qatar",
-    420,
-    300
-  );
-  kenyaBar.updateVis();
+      const chart = new StripeChart(
+        {
+          parentElement: `#vis-${sanitizedID}`,
+        },
+        data,
+        country,
+        420,
+        300
+      );
+      chart.updateVis();
+    });
+  }
+
+  createCountryDivs(countries);
 });

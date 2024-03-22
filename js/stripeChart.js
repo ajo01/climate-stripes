@@ -6,7 +6,7 @@ class StripeChart {
   constructor(_config, data, selectedCountry, width, height) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: width || 1000,
+      containerWidth: width || 1300,
       containerHeight: height || 500,
       margin: {
         top: 50,
