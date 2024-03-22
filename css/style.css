@@ -11,10 +11,25 @@ body {
   width: 100%;
   background-color: rgb(27, 27, 27);
   color: white;
+  padding: 32px 64px;
 }
 
 .tick text {
   font-size: 13px;
   font-weight: bold;
   color: white;
+}
+
+.chart-title {
+  fill: white;
+  font-size: 18px;
+}
+
+.vis-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#country {
+  margin-bottom: 100px;
 }

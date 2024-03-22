@@ -7,12 +7,12 @@ class StripeChart {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: width || 1000,
-      containerHeight: height || 600,
+      containerHeight: height || 500,
       margin: {
-        top: 150,
+        top: 50,
         right: 50,
         bottom: 100,
-        left: 50,
+        left: 0,
       },
     };
     this.data = data;
@@ -102,6 +102,13 @@ class StripeChart {
         const tempValue = d[1];
         return vis.colorScale(tempValue);
       });
+
+    vis.chart
+      .append("text")
+      .attr("x", 0)
+      .attr("y", -20)
+      .text(vis.selectedCountry)
+      .attr("class", "chart-title");
 
     // vis.bar
     //   .on("mouseover", (event, d) => {

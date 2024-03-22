@@ -45,8 +45,8 @@ d3.csv("data/output.csv").then((data) => {
     },
     data,
     "Canada",
-    600,
-    400
+    420,
+    300
   );
   bar.updateVis();
 
@@ -55,7 +55,9 @@ d3.csv("data/output.csv").then((data) => {
       parentElement: "#vis-france",
     },
     data,
-    "France"
+    "France",
+    420,
+    300
   );
   franceBar.updateVis();
 
@@ -64,7 +66,9 @@ d3.csv("data/output.csv").then((data) => {
       parentElement: "#vis-kenya",
     },
     data,
-    "Qatar"
+    "Qatar",
+    420,
+    300
   );
   kenyaBar.updateVis();
 });
