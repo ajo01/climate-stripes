@@ -54,12 +54,12 @@ class StripeChart {
       .attr("class", "x-axis");
 
     vis.xScale = d3.scaleLinear().domain([1961, 2023]).range([0, vis.width]);
-    vis.colorScale = d3.scaleThreshold([-1, 1], ["red", "orange", "blue"]);
+    vis.colorScale = d3.scaleThreshold([-0.5, 0.5], ["blue", "orange", "red"]);
 
     vis.xAxis = d3
       .axisBottom(vis.xScale)
       .tickSize(vis.height)
-      .ticks(50)
+      .ticks(10)
       .tickPadding(20)
       .tickFormat(d3.format("d"));
   }
@@ -94,6 +94,21 @@ class StripeChart {
       .attr("fill", (d) => {
         const tempValue = d[1];
         return vis.colorScale(tempValue);
+      });
+
+    vis.bar
+      .on("mouseover", (event, d) => {
+        d3
+          .select("#tooltip")
+          .style("display", "block")
+          .style("left", event.pageX + vis.config.tooltipPadding + "px")
+          .style("top", event.pageY + vis.config.tooltipPadding + "px").html(`
+      <div>${d[0]}</div>
+      <div class="tooltip-cost">${d[1]}</div>
+    `);
+      })
+      .on("mouseleave", () => {
+        d3.select("#tooltip").style("display", "none");
       });
 
     vis.xAxisG.call(vis.xAxis);
