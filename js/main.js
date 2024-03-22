@@ -31,7 +31,7 @@ d3.csv("data/output.csv").then((data) => {
       parentElement: "#vis-dynamic",
     },
     data,
-    defaultOption
+    "World"
   );
   dynamicBar.updateVis();
 

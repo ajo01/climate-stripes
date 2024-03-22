@@ -65,6 +65,12 @@ class StripeChart {
       .ticks(5)
       .tickPadding(20)
       .tickFormat(d3.format("d"));
+
+    vis.chartTitle = vis.chart
+      .append("text")
+      .attr("x", 0)
+      .attr("y", -20)
+      .attr("class", "chart-title");
   }
 
   // Prepare data and scales
@@ -77,7 +83,8 @@ class StripeChart {
       (d) => d.Country === vis.selectedCountry
     );
     vis.selectedCountryData = vis.selectedCountryData[0];
-    delete vis.selectedCountryData.Country;
+    const { country, ...tempData } = vis.selectedCountryData;
+    vis.temperatureData = tempData;
 
     vis.renderVis();
   }
@@ -91,7 +98,7 @@ class StripeChart {
 
     vis.bar = vis.chart
       .selectAll(".bar")
-      .data(Object.entries(vis.selectedCountryData))
+      .data(Object.entries(vis.temperatureData))
       .join("rect")
       .attr("class", `bar`)
       .attr("x", (d, i) => vis.xScale(1961 + i))
@@ -103,27 +110,7 @@ class StripeChart {
         return vis.colorScale(tempValue);
       });
 
-    vis.chart
-      .append("text")
-      .attr("x", 0)
-      .attr("y", -20)
-      .text(vis.selectedCountry)
-      .attr("class", "chart-title");
-
-    // vis.bar
-    //   .on("mouseover", (event, d) => {
-    //     d3
-    //       .select("#tooltip")
-    //       .style("display", "block")
-    //       .style("left", event.pageX + vis.config.tooltipPadding + "px")
-    //       .style("top", event.pageY + vis.config.tooltipPadding + "px").html(`
-    //   <div>${d[0]}</div>
-    //   <div class="tooltip-cost">${d[1]}</div>
-    // `);
-    //   })
-    //   .on("mouseleave", () => {
-    //     d3.select("#tooltip").style("display", "none");
-    //   });
+    vis.chart.select(".chart-title").text(vis.selectedCountry);
 
     vis.xAxisG.call(vis.xAxis);
   }
