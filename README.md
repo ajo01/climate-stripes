@@ -1,9 +1,8 @@
 Climate stripe / strip plots visualizing climate change made with D3.js
+<img width="1307" alt="Screenshot 2024-03-22 at 4 27 03 PM" src="https://github.com/ajo01/climate-stripes.github.io/assets/70789275/54675a10-0605-421a-b87e-b4ef76f4c20d">
+<img width="1312" alt="Screenshot 2024-03-22 at 4 26 42 PM" src="https://github.com/ajo01/climate-stripes.github.io/assets/70789275/6118d9f2-0814-4992-b980-3f50b3f5634a">
 
-<img width="1410" alt="Screenshot 2024-03-22 at 3 21 40 AM" src="https://github.com/ajo01/climate-stripes/assets/70789275/e2bfbec6-5798-4f8e-ad9a-08f81517effb">
-
-<img width="1378" alt="Screenshot 2024-03-22 at 3 21 48 AM" src="https://github.com/ajo01/climate-stripes/assets/70789275/494de5ad-86e3-493a-9c45-21d459b09df3">
-
+ 
 Full credit to [Professor Ed Hawkins](https://research.reading.ac.uk/meteorology/people/ed-hawkins/) for the design
 
 Original data visualization https://showyourstripes.info/
