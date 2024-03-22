@@ -68,8 +68,10 @@ class StripeChart {
   }
 
   // Prepare data and scales
-  updateVis() {
+  updateVis(newSelectedCountry) {
     let vis = this;
+
+    vis.selectedCountry = newSelectedCountry || vis.selectedCountry;
 
     vis.selectedCountryData = vis.data.filter(
       (d) => d.Country === vis.selectedCountry

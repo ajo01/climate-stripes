@@ -10,24 +10,45 @@ d3.csv("data/output.csv").then((data) => {
     }
   });
 
-  // // initialize chart
-  bar = new StripeChart(
-    {
-      parentElement: "#vis",
-    },
-    data
-  );
-  // render chart
-  bar.updateVis();
+  const countries = [...new Set(data.map((d) => d.Country))];
 
-  worldBar = new StripeChart(
+  // Populate select options with countries
+  const select = d3.select("#country");
+  select
+    .selectAll("option")
+    .data(countries)
+    .enter()
+    .append("option")
+    .text((d) => d)
+    .attr("value", (d) => d);
+
+  const defaultOption = "World"; // Change this to your desired default option
+
+  select.property("value", defaultOption);
+
+  dynamicBar = new StripeChart(
     {
-      parentElement: "#vis-world",
+      parentElement: "#vis-dynamic",
     },
     data,
     "World"
   );
-  worldBar.updateVis();
+  dynamicBar.updateVis();
+  select.on("change", function () {
+    const selectedCountry = d3.select(this).property("value");
+    dynamicBar.updateVis(selectedCountry);
+  });
+
+  bar = new StripeChart(
+    {
+      parentElement: "#vis-canada",
+    },
+    data,
+    "Canada",
+    600,
+    400
+  );
+  bar.updateVis();
 
   franceBar = new StripeChart(
     {
