@@ -53,7 +53,7 @@ class StripeChart {
       .attr("transform", `translate(0,0)`)
       .attr("class", "x-axis");
 
-    vis.xScale = d3.scaleLinear().domain([1961, 2023]).range([0, vis.width]);
+    vis.xScale = d3.scaleLinear().domain([1961, 2022]).range([0, vis.width]);
 
     vis.colorScale = d3
       .scaleDiverging(d3.interpolateRdBu)
@@ -93,19 +93,24 @@ class StripeChart {
   renderVis() {
     let vis = this;
 
-    const yearRange = 2023 - 1961; // 62
+    const yearRange = 2022 - 1961; // 61
     const barWidth = Math.ceil(vis.width / yearRange);
+
+    const temperatureEntries = Object.entries(vis.temperatureData);
+    temperatureEntries.pop();
 
     vis.bar = vis.chart
       .selectAll(".bar")
-      .data(Object.entries(vis.temperatureData))
+      .data(temperatureEntries)
       .join("rect")
       .attr("class", `bar`)
-      .attr("x", (d, i) => vis.xScale(1961 + i))
+      .attr("x", (d, i) => {
+        return vis.xScale(1961 + i);
+      })
       .attr("y", 0)
       .attr("width", barWidth)
       .attr("height", vis.height)
-      .attr("fill", (d) => {
+      .attr("fill", (d, i) => {
         const tempValue = d[1];
         return vis.colorScale(tempValue);
       });
